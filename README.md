@@ -40,7 +40,7 @@ pip install pygame pyvista numpy pydualsense
 # Required Files
 To run the simulation successfully, ensure the following files are in your working directory:
 
-* main_sim.py (The main execution script)
+* pilot_controlled_performance_analysis.py (The main execution script)
 
 * flight_dynamics.py & atmosphere.py (Physics modules)
 
