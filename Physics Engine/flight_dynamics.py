@@ -64,7 +64,7 @@ def flight_dynamics(state, ac, env, controls):
         [math.cos(theta), -math.sin(theta)], 
         [math.sin(theta),  math.cos(theta)]
     ]) 
-    L_EB = L_BE.T # .T is the NumPy equivalent of MATLAB's ' (transpose)
+    L_EB = L_BE.T 
     
     # L_BS: Stability to Body
     L_BS = np.array([
@@ -91,13 +91,12 @@ def flight_dynamics(state, ac, env, controls):
     Cm  = Cm0 + (Cma * alpha) + (Cmd * delta_e)
     
     # --- Dimensional Forces & Moments ---
-    L_force = Q_dyn * S_ref * CL  # Renamed from 'L' to avoid confusion with Lapse Rate or limits
+    L_force = Q_dyn * S_ref * CL  
     D_force = Q_dyn * S_ref * CD
     M_Aero  = Q_dyn * S_ref * c_bar * Cm
     
     # --- Stall Speed Calculation (Dynamic) ---
     Query_Mach = max(Mach_Number, min(ac['Aero']['Limits']['Mach_Vec'])) 
-    # np.interp is the 1-to-1 equivalent of MATLAB's interp1 for 1D linear interpolation
     Current_CL_max = np.interp(
         Query_Mach, 
         ac['Aero']['Limits']['Mach_Vec'], 
@@ -189,7 +188,7 @@ def flight_dynamics(state, ac, env, controls):
         x_dot_E = V_E_Matrix[0]
         z_dot_E = V_E_Matrix[1]
 
-    # Pitching Moment (Same for both phases for now)
+    # Pitching Moment 
     q_dot = M_Aero / I_yy
     theta_dot = q
     
@@ -203,10 +202,10 @@ def flight_dynamics(state, ac, env, controls):
     # =========================================================================
     output = {
         'Derivatives': {
-            'x_dot_E': x_dot_E,   # Fixed: Using the explicitly defined variable
-            'z_dot_E': z_dot_E,   # Fixed
-            'u_dot': u_dot,       # Fixed: No longer calling a_Matrix
-            'w_dot': w_dot,       # Fixed
+            'x_dot_E': x_dot_E,   
+            'z_dot_E': z_dot_E,   
+            'u_dot': u_dot,       
+            'w_dot': w_dot,       
             'theta_dot': theta_dot,
             'q_dot': q_dot,
             'm_dot': m_dot_fuel
@@ -221,10 +220,10 @@ def flight_dynamics(state, ac, env, controls):
             'V': V,
             'Mach_Number': Mach_Number,
             'Vstall': V_stall,
-            'u_E': x_dot_E,       # Cleaned up reference
-            'w_E': z_dot_E,       # Cleaned up reference
-            'u_dot_E': u_dot_E,   # Fixed: No longer calling a_Matrix_E
-            'w_dot_E': w_dot_E    # Fixed
+            'u_E': x_dot_E,      
+            'w_E': z_dot_E,       
+            'u_dot_E': u_dot_E,   
+            'w_dot_E': w_dot_E    
         },
         'Forces': {
             'W': W,
